@@ -1,13 +1,17 @@
 package com.rabhosle.tictactoe.adapters;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rabhosle.tictactoe.R;
+import com.rabhosle.tictactoe.model.DataModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,10 +20,12 @@ import java.util.List;
 
 public class GameCellAdapter extends RecyclerView.Adapter<GameCellAdapter.ViewHolder> {
 
-    private List<String> values;
+    private ArrayList<DataModel> values;
+    protected ItemListener mListener;
 
-    public GameCellAdapter(List<String> myDataset) {
+    public GameCellAdapter(ArrayList<DataModel> myDataset, ItemListener itemListener) {
         values = myDataset;
+        mListener = itemListener;
     }
 
     @Override
@@ -30,20 +36,12 @@ public class GameCellAdapter extends RecyclerView.Adapter<GameCellAdapter.ViewHo
         View v =
                 inflater.inflate(R.layout.grid_item, parent, false);
         // set the view's size, margins, paddings and layout parameters
-        ViewHolder vh = new ViewHolder(v);
-        return vh;
+        return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final String name = values.get(position);
-        holder.cellContent.setText(name);
-        holder.cellContent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        holder.setData(values.get(position));
     }
 
     @Override
@@ -51,13 +49,35 @@ public class GameCellAdapter extends RecyclerView.Adapter<GameCellAdapter.ViewHo
         return values.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView cellContent;
+        public LinearLayout layout;
+        public DataModel item;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             cellContent = (TextView) itemView.findViewById(R.id.txtContent);
+            layout = (LinearLayout) itemView.findViewById(R.id.layout);
         }
+
+        public void setData(DataModel item) {
+            this.item = item;
+
+            cellContent.setText(item.text);
+            layout.setBackgroundColor(Color.parseColor(item.color));
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mListener != null) {
+                mListener.onItemClick(item);
+            }
+        }
+    }
+
+    public interface ItemListener {
+        void onItemClick(DataModel item);
     }
 }

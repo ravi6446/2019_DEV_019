@@ -5,23 +5,26 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.rabhosle.tictactoe.R;
 import com.rabhosle.tictactoe.adapters.GameCellAdapter;
+import com.rabhosle.tictactoe.model.DataModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements GameCellAdapter.ItemListener {
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
-    static String[] board;
-    static String turn;
+    private ArrayList<DataModel> gridCell;
+    private String currentPlayer = "X";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,6 @@ public class GameActivity extends AppCompatActivity {
         initViews();
         setUpCells();
 
-        startGame();
     }
 
 
@@ -38,109 +40,104 @@ public class GameActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         // use a linear layout manager
-        layoutManager = new GridLayoutManager(this,3);
+        layoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(layoutManager);
     }
 
     private void setUpCells() {
-        List<String> input = new ArrayList<>();
+        gridCell = new ArrayList<>();
         for (int i = 0; i < 9; i++) {
-            input.add("");
-        }// define an adapter
-        mAdapter = new GameCellAdapter(input);
+            gridCell.add(new DataModel("", i, "#ffffff", false));
+        }
+        mAdapter = new GameCellAdapter(gridCell, this);
+
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void startGame() {
-        board = new String[9];
-        turn = "X";
-        String winner = null;
-        //populateEmptyBoard();
+    @Override
+    public void onItemClick(DataModel item) {
+        startGame(item);
+        // Toast.makeText(getApplicationContext(), item + " is clicked", Toast.LENGTH_SHORT).show();
+    }
 
-        System.out.println("Welcome to 2 Player Tic Tac Toe.");
-        System.out.println("--------------------------------");
-      //  printBoard();
-        System.out.println("X's will play first. Enter a slot number to place X in:");
+    private void startGame(DataModel item) {
+        //  input = new Scanner(System.in);
+        // gridCell = new String[9];
+
+        String winner = null;
+        //  populateEmptyBoard();
+
+        //  System.out.println("Welcome to 2 Player Tic Tac Toe.");
+        //  System.out.println("--------------------------------");
+        // printBoard();
+        // System.out.println("X's will play first. Enter a slot number to place X input:");
 
         while (winner == null) {
-            int numInput=0;
-            try {
-              //  numInput = in.nextInt();
-                if (!(numInput > 0 && numInput <= 9)) {
-                    System.out.println("Invalid input; re-enter slot number:");
-                    continue;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input; re-enter slot number:");
-                continue;
-            }
-            if (board[numInput-1].equals(String.valueOf(numInput))) {
-                board[numInput-1] = turn;
-                if (turn.equals("X")) {
-                    turn = "O";
+            int numInput = item.index;
+            if (!gridCell.get(item.index).isPlayed) {
+                gridCell.get(item.index).text = currentPlayer;
+                gridCell.get(item.index).color = "#A9A9A9";
+                if (currentPlayer.equals("X")) {
+                    currentPlayer = "O";
                 } else {
-                    turn = "X";
+                    currentPlayer = "X";
                 }
-               // printBoard();
-                winner = checkWinner();
+                winner = winnerPlayerCheck();
             } else {
-                System.out.println("Slot already taken; re-enter slot number:");
-                continue;
+                Toast.makeText(this, "Slot is not empty", Toast.LENGTH_SHORT).show();
             }
         }
         if (winner.equalsIgnoreCase("draw")) {
-            System.out.println("It's a draw! Thanks for playing.");
+            Toast.makeText(this, "It's a draw! ", Toast.LENGTH_SHORT).show();
         } else {
-            System.out.println("Congratulations! " + winner + "'s have won! Thanks for playing.");
+            Toast.makeText(this, "Congratulations! " + winner + "'s have won!", Toast.LENGTH_SHORT).show();
         }
-
     }
 
 
-    static String checkWinner() {
+    private String winnerPlayerCheck() {
         for (int a = 0; a < 8; a++) {
-            String line = null;
+            String winningCondition = null;
             switch (a) {
                 case 0:
-                    line = board[0] + board[1] + board[2];
+                    winningCondition = gridCell.get(0).text + gridCell.get(1).text + gridCell.get(2).text;
                     break;
                 case 1:
-                    line = board[3] + board[4] + board[5];
+                    winningCondition = gridCell.get(3).text + gridCell.get(4).text + gridCell.get(5).text;
                     break;
                 case 2:
-                    line = board[6] + board[7] + board[8];
+                    winningCondition = gridCell.get(6).text + gridCell.get(7).text + gridCell.get(8).text;
                     break;
                 case 3:
-                    line = board[0] + board[3] + board[6];
+                    winningCondition = gridCell.get(0).text + gridCell.get(3).text + gridCell.get(6).text;
                     break;
                 case 4:
-                    line = board[1] + board[4] + board[7];
+                    winningCondition = gridCell.get(1).text + gridCell.get(4).text + gridCell.get(7).text;
                     break;
                 case 5:
-                    line = board[2] + board[5] + board[8];
+                    winningCondition = gridCell.get(2).text + gridCell.get(5).text + gridCell.get(8).text;
                     break;
                 case 6:
-                    line = board[0] + board[4] + board[8];
+                    winningCondition = gridCell.get(0).text + gridCell.get(4).text + gridCell.get(8).text;
                     break;
                 case 7:
-                    line = board[2] + board[4] + board[6];
+                    winningCondition = gridCell.get(2).text + gridCell.get(4).text + gridCell.get(6).text;
                     break;
             }
-            if (line.equals("XXX")) {
+            if (winningCondition.equals("XXX")) {
                 return "X";
-            } else if (line.equals("OOO")) {
+            } else if (winningCondition.equals("OOO")) {
                 return "O";
             }
         }
 
         for (int a = 0; a < 9; a++) {
-            if (Arrays.asList(board).contains(String.valueOf(a+1))) {
+            if (gridCell.get(a).text == "") {
                 break;
-            }
-            else if (a == 8) return "draw";
+            } else if (a == 8) return "draw";
         }
 
-        System.out.println(turn + "'s turn; enter a slot number to place " + turn + " in:");
+        Toast.makeText(this, "" + currentPlayer + "'s turn", Toast.LENGTH_SHORT).show();
         return null;
     }
 }
