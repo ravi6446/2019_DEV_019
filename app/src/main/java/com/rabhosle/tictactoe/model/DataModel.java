@@ -8,10 +8,10 @@ public class DataModel {
 
     public String text;
     public int index;
-    public String color;
+    public int color;
     public boolean isPlayed;
 
-    public DataModel(String text, int index, String color, boolean isPlayed) {
+    public DataModel(String text, int index, int color, boolean isPlayed) {
         this.text = text;
         this.index = index;
         this.color = color;

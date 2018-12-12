@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">TicTacToe</string>
+    <string name="dialog_title">Result</string>
+    <string name="result_message">Congratulations! %1$s have won!</string>
+    <string name="draw_message">It\'s a draw!!</string>
+    <string name="string_draw">Draw</string>
+    <string name="positiveButton">New Game</string>
+    <string name="negativeButton">Exit</string>
+    <string name="oWinCondition">OOO</string>
+    <string name="xWinCondition">XXX</string>
+    <string name="slotOccupied">Slot is not empty</string>
+    <string name="firstPlayer">Player X will play first</string>
+
+    <string name="XPlayer">X</string>
+    <string name="OPlayer">O</string>
+
 </resources>

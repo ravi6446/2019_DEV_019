@@ -1,30 +1,28 @@
 package com.rabhosle.tictactoe.adapters;
 
-import android.graphics.Color;
+/**
+ * Created by rabhosle on 12/11/2018.
+ */
+
+
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rabhosle.tictactoe.R;
 import com.rabhosle.tictactoe.model.DataModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Created by rabhosle on 12/11/2018.
- */
 
 public class GameCellAdapter extends RecyclerView.Adapter<GameCellAdapter.ViewHolder> {
 
     private ArrayList<DataModel> values;
-    protected ItemListener mListener;
+    private ItemListener mListener;
 
-    public GameCellAdapter(ArrayList<DataModel> myDataset, ItemListener itemListener) {
-        values = myDataset;
+    public GameCellAdapter(ItemListener itemListener) {
         mListener = itemListener;
     }
 
@@ -51,22 +49,19 @@ public class GameCellAdapter extends RecyclerView.Adapter<GameCellAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView cellContent;
-        public LinearLayout layout;
-        public DataModel item;
+        private TextView cellContent;
+        private DataModel item;
 
-        public ViewHolder(View itemView) {
+        private ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             cellContent = (TextView) itemView.findViewById(R.id.txtContent);
-            layout = (LinearLayout) itemView.findViewById(R.id.layout);
         }
 
         public void setData(DataModel item) {
             this.item = item;
-
             cellContent.setText(item.text);
-            layout.setBackgroundColor(Color.parseColor(item.color));
+            cellContent.setBackgroundColor(item.color);
         }
 
         @Override
@@ -77,7 +72,16 @@ public class GameCellAdapter extends RecyclerView.Adapter<GameCellAdapter.ViewHo
         }
     }
 
+    //set values for grid cells
+    public void setItems(ArrayList<DataModel> values) {
+        this.values = values;
+    }
+
+    //interface for handling clicks of the grid cells in activity
+    //this interface will be implemented in the activity
     public interface ItemListener {
         void onItemClick(DataModel item);
     }
+
+
 }
