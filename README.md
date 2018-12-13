@@ -1,7 +1,9 @@
 # Tic Tac Toe Game
 
 This is a very simple and easy to use android game of Tic Tac Toe.
-
+# Screenshots
+ <img src="https://github.com/ravi6446/2019_DEV_019/blob/master/screenshots/1.png" width="300">  <img src="https://github.com/ravi6446/2019_DEV_019/blob/master/screenshots/2.png" width="300">  <img src="https://github.com/ravi6446/2019_DEV_019/blob/master/screenshots/3.png" width="300">  <img src="https://github.com/ravi6446/2019_DEV_019/blob/master/screenshots/4.png" width="300">
+ 
 # Rules 
 
 -   The  **game**  is played on a grid that's 3 squares by 3 squares.
@@ -14,7 +16,8 @@ This is a very simple and easy to use android game of Tic Tac Toe.
  ## Install Android Studio
 Install Android studio from following link
 https://developer.android.com/studio/?gclid=EAIaIQobChMInqyfyIed3wIV0g0rCh2SKgGXEAAYASAAEgJEcPD_BwE
--  After installing android studio check if the Android Emulator is installed, if not  click **Tools > SDK Manager** select the **SDK Tools** component in the Android Studio and install Android Emulator.
+-  After installing android studio check if the Android Emulator is installed.
+-  If not installed, click **Tools > SDK Manager**  in  Android Studio and select the **SDK Tools** component and install Android Emulator.
 
 # Run application
 **For downloading the apk of the game use following link**
