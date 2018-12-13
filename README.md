@@ -8,6 +8,7 @@ This is a very simple and easy to use android game of Tic Tac Toe.
 
 -   The  **game**  is played on a grid that's 3 squares by 3 squares.
 -    It is a two player game one is 'X' and other 'O'.
+- 'X' player places his mark first in the grid
 - **Players** take **turns** putting their marks in empty squares.
 -  The first  **player**  to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.
 - When all 9 squares are full, the game is over. If no player has 3 marks in a row, the game ends in a tie.
