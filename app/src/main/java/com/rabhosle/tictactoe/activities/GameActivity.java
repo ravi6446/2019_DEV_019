@@ -149,6 +149,7 @@ public class GameActivity extends AppCompatActivity implements GameCellAdapter.I
                         finish();
                     }
                 })
+                .setCancelable(false)
                 .show();
     }
 
